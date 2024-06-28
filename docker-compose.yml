@@ -2,19 +2,39 @@ version: '3.3'
 
 services:
   mysql:
-    image: mysql:8.0
-    environment: 
-      - MYSQL_ROOT_PASSWORD=boot
-      - MYSQL_HOST=127.0.0.1
-    ports: 
-      - 3306:3306
+    image: 'mysql/mysql-server:8.0'
+    ports:
+        - '3306:3306'
+    environment:
+        MYSQL_ROOT_PASSWORD: 'password'
+        MYSQL_ROOT_HOST: "%"
+        MYSQL_DATABASE: 'barcode'
+        MYSQL_USER: 'root'
+        MYSQL_PASSWORD: 'password'
+    volumes:
+        - 'mysql:/var/lib/mysql'
+        - './docker/init-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+    healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+        retries: 3
+        timeout: 5s
+    networks:
+      - barcode
+
 
   rocket:
     build: .
     command: bash -c "cargo run"
     links:
       - mysql
-    environment:
-      - DATABASE_URL=mysql://root:boot@mysql/items
     ports:
-      - 6666:6666
+      - 8080:8080
+    networks:
+        - barcode
+
+networks:
+   barcode:
+        external: true
+volumes:
+    mysql:
+        driver: local
