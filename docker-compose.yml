@@ -20,11 +20,9 @@ services:
         timeout: 5s
     networks:
       - barcode
-
-
   rocket:
     build: .
-    command: bash -c "cargo run"
+    # command: bash -c "cargo run"
     links:
       - mysql
     ports:

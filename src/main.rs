@@ -1,15 +1,11 @@
+#[macro_use] extern crate rocket;
+
 #[get("/")]
-fn list_item() -> Json<JsonValue> {
-    Json(json!([
-        {
-            "name": "a disk",
-            "description": "useful item to store information",
-            "price": 16
-        },
-        {
-            "name": "b disk",
-            "description": "another useful item",
-            "price": 13
-        }
-    ]))
+fn index() -> &'static str {
+    "Hello, world!"
+}
+
+#[launch]
+fn rocket() -> _ {
+    rocket::build().mount("/", routes![index])
 }

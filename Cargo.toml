@@ -5,3 +5,5 @@ authors = ["Tu Nombre <glozicky@gmail.com>"]
 edition = "2021"
 
 [dependencies]
+
+rocket = "0.5.1"
