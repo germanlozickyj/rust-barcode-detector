@@ -9,6 +9,6 @@ COPY . .
 EXPOSE 8080
 
 RUN rustup default nightly
-RUN cargo build
+RUN cargo install cargo-watch
 
-CMD ["cargo", "run"]
+CMD ["cargo", "watch", "-x", "run"]
