@@ -11,4 +11,5 @@ EXPOSE 8080
 RUN rustup default nightly
 RUN cargo install cargo-watch
 
-CMD ["cargo", "watch", "-x", "run"]
+CMD ["sh", "-c", "cargo watch -x run > cargo.log 2>&1"]
+
