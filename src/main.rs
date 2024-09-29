@@ -4,6 +4,12 @@ use rocket::form::Form;
 use rocket::fs::TempFile;
 use tokio::fs;
 use std::os::unix::fs::PermissionsExt;
+// use opencv::{
+//     Result,
+//     prelude::*,
+//     videoio,
+//     highgui
+// }
 
 #[derive(FromForm)]
 struct Upload<'r> {
@@ -28,8 +34,14 @@ async fn submit(upload: Form<Upload<'_>>) -> std::io::Result<()> {
     Ok(())
 }
 
+#[get(/)] 
+fn home() -> String {
+    String::from("Home");
+}
+
 #[launch] 
 fn rocket() -> _ {
     rocket::build()
         .mount("/api", routes![submit])
+        .mount("/", routes![home])
 }
